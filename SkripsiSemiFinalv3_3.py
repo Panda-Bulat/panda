@@ -233,7 +233,7 @@ def main():
     st.markdown("""
     <style>
         .stButton {
-            margin-top: 10px; /* Jarak atas tombol Submit */
+            margin-top: 8px; /* Jarak atas tombol Submit */
         }
     </style>
     """, unsafe_allow_html=True)
