@@ -13,6 +13,7 @@ import pickle
 
 page_bg_img = """
 <style>
+/* Latar belakang utama */
 [data-testid="stAppViewContainer"] {
     background-image: url(https://images.unsplash.com/photo-1485963631004-f2f00b1d6606?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
     background-size: cover;
@@ -26,29 +27,59 @@ page_bg_img = """
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: 0;
     pointer-events: none;
 }
 
+/* Header transparan */
 [data-testid="stHeader"] {
     background-color: rgba(0, 0, 0, 0);
 }
 
+/* Gaya untuk semua teks */
+h1, h2, h3, h4, h5, h6, label, .stMarkdown {
+    font-family: "Roboto", sans-serif;
+    color: #F5F5F5 !important;
+}
+
+/* Gaya input dan tombol */
+.stTextInput>div, .stButton>button, .stTextArea>div, select {
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid #DEB887;
+}
+
+/* Tombol dengan warna yang menarik */
 .stButton>button {
-    background-color: #F5DEB3;
-    color: white !important;
+    background-color: #FFD700; /* Warna emas */
+    color: black !important;
     padding: 10px 15px;
     border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .stButton>button:hover {
-    background-color: #DEB887;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    background-color: #FFA500; /* Warna oranye */
+    transform: scale(1.05);
 }
 
-h1, h2, h3, h4, h5, h6, label {
-    color: white !important;
+/* Tampilan subjudul */
+.stSubtitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #FFD700;
+}
+
+/* Kotak hasil rekomendasi */
+.expander-header {
+    background-color: rgba(255, 215, 0, 0.1); /* Warna emas semi transparan */
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #FFD700;
+    margin-bottom: 10px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
 }
 </style>
 """
