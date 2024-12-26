@@ -237,7 +237,7 @@ def main():
             st.subheader("Top Recommended Recipes")
             if not recommendations.empty:
                 for idx, row in recommendations.iterrows():
-                    with st.expander(f"{idx + 1}. {row['Title']} (Score: {row['score']:.2f})"):
+                    with st.expander(f"{idx + 1}. {row['Title']}"):
                         # Display Ingredients
                         st.write("**Ingredients:**")
                         ingredients_list = row['ingredients'].split(";")
