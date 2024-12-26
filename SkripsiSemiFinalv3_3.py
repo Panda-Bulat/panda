@@ -192,9 +192,12 @@ def main():
     st.title("Recipe Recommendation System")
 
     if "merged_data" not in st.session_state or "fasttext_model" not in st.session_state:
-        # Tampilkan warning hanya saat data belum diinisialisasi
+        # Tampilkan pesan loading yang lebih rapi
         with st.spinner("Initializing data and model, please wait..."):
             st.session_state.merged_data, st.session_state.fasttext_model = initialize_data_and_model()
+    
+        # Menampilkan teks kecil menggunakan markdown setelah inisialisasi selesai
+        st.markdown('<small>Data and model initialized successfully.</small>', unsafe_allow_html=True)
 
     merged_data = st.session_state.merged_data
     fasttext_model = st.session_state.fasttext_model
@@ -207,13 +210,15 @@ def main():
     selected_categories = st.multiselect("Pilih kategori", options=available_categories)
 
     # Step 2: User enters allergens
-    st.subheader("Step 2: Pilih bahan alergen")
-    st.write("*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat")
+    st.markdown("""
+        <p style="margin-bottom: 5px;">*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat.</p>
+        <p style="margin-bottom: 5px;">*Jika tidak ada, silakan masukkan tanda minus (-).</p>""", unsafe_allow_html=True)
     user_allergens = st.text_input("Masukkan bahan alergen (dipisah tanda koma (,) misal: telur, udang)")
 
     # Step 3: User enters ingredients
     st.subheader("Step 3: Pilih bahan makanan yang ingin dimasukkan")
-    st.write("*Jika terdapat typo pada input bahan makanan, hasil rekomendasi bisa saja berbeda")
+    st.markdown("""
+        <p style="margin-bottom: 5px;">*Jika terdapat typo pada input bahan makanan, hasil rekomendasi bisa saja berbeda.</p>""", unsafe_allow_html=True)
     user_ingredients = st.text_input("Masukkan bahan makanan (dipisah tanda koma (,) misal: telur, udang)")
 
     # Submit button
