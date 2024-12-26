@@ -10,6 +10,7 @@ from gensim.models import FastText
 from sklearn.metrics.pairwise import cosine_similarity
 import ast
 import pickle
+import gdown
 
 page_bg_img = """
 <style>
@@ -99,15 +100,32 @@ nltk.download("punkt", quiet=True)
 
 # Initialize and preprocess data and model
 @st.cache_resource
+def load_model_from_drive():
+    file_id = "1jJ3lUkbp2dK-TuWsB1c5-18pEen07T_E"  
+    url = f"https://drive.google.com/uc?id={file_id}"  # Format URL untuk gdown
+    output = "fasttext_model.pkl"  # Nama file output lokal
+
+    gdown.download(url, output, quiet=False)
+
+    try:
+        with open(output, "rb") as file:
+            fasttext_model = pickle.load(file)
+    except Exception as e:
+        raise ValueError(f"Failed to load the FastText model. Error: {e}")
+
+    return fasttext_model
+
+@st.cache_resource
 def initialize_data_and_model():
     try:
         # Load dataset
         merged_data = pd.read_csv("merged_dataset.csv", encoding="utf-8")
-        merged_data['clean_tokens'] = merged_data['clean_tokens'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+        merged_data['clean_tokens'] = merged_data['clean_tokens'].apply(
+            lambda x: ast.literal_eval(x) if isinstance(x, str) else x
+        )
 
-        # Load FastText model menggunakan pickle
-        with open("fasttext_model.pkl", "rb") as file:
-            fasttext_model = pickle.load(file)
+        # Load FastText model dari Google Drive
+        fasttext_model = load_model_from_drive()
 
         return merged_data, fasttext_model
     except Exception as e:
