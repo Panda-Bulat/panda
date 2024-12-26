@@ -220,7 +220,7 @@ def main():
     st.markdown("""
         <style>
             .stTextInput {
-                margin-bottom: 10px; /* Kurangi nilai ini untuk mengurangi jarak */
+                margin-bottom: 5px; /* Kurangi nilai ini untuk mengurangi jarak */
             }
         </style>
     """, unsafe_allow_html=True)
