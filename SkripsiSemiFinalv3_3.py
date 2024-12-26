@@ -133,6 +133,7 @@ def initialize_data_and_model():
         return pd.DataFrame(), None
 
 # Filter by category function
+# Filter by category function
 def filter_by_category(data, selected_categories):
     return data[data['kategori'].isin(selected_categories)].reset_index(drop=True)
 
@@ -208,7 +209,6 @@ def main():
     # Step 2: User enters allergens
     st.subheader("Step 2: Pilih bahan alergen")
     st.write("*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat")
-    st.write("*Jika tidak ada, cukup ketik tanda pisah (-)")
     user_allergens = st.text_input("Masukkan bahan alergen (dipisah tanda koma (,) misal: telur, udang)")
 
     # Step 3: User enters ingredients
@@ -258,4 +258,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
