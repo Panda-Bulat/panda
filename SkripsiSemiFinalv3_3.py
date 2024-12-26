@@ -190,6 +190,7 @@ def main():
     # Step 2: User enters allergens
     st.subheader("Step 2: Pilih bahan alergen")
     st.write("*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat")
+    st.write("*Jika tidak ada, cukup ketik tanda pisah (-)")
     user_allergens = st.text_input("Masukkan bahan alergen (dipisah tanda koma (,) misal: telur, udang)")
 
     # Step 3: User enters ingredients
