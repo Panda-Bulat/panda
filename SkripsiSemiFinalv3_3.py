@@ -210,6 +210,7 @@ def main():
     selected_categories = st.multiselect("Pilih kategori", options=available_categories)
 
     # Step 2: User enters allergens
+    st.subheader("Step 2: Pilih bahan alergen")
     st.markdown("""
         <p style="margin-bottom: 5px;">*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat.</p>
         <p style="margin-bottom: 5px;">*Jika tidak ada, silakan masukkan tanda minus (-).</p>""", unsafe_allow_html=True)
