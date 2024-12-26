@@ -212,22 +212,13 @@ def main():
     # Step 2: User enters allergens
     st.subheader("Step 2: Pilih bahan alergen")
     user_allergens = st.text_input(
-        "Masukkan bahan alergen (dipisah tanda koma (,) misal: telur, udang)", 
+        "Masukkan daftar bahan alergen, dipisahkan dengan tanda koma (,).", 
         help="Contoh: telur, udang"
     )
     
-    # Menambahkan Markdown dengan CSS untuk mengurangi jarak margin
     st.markdown("""
-        <style>
-            .stTextInput {
-                margin-bottom: 5px; /* Kurangi nilai ini untuk mengurangi jarak */
-            }
-        </style>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
-        <p style="font-size: 12px; margin-top: 5px; margin-bottom: 4px;">*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat.</p>
-        <p style="font-size: 12px; margin-top: 5px; margin-bottom: 4px;">*Jika tidak ada, silakan masukkan tanda minus (-).</p>
+        <p style="font-size: 12px; margin-top: 3px; margin-bottom: 4px;">*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat.</p>
+        <p style="font-size: 12px; margin-top: 3px; margin-bottom: 4px;">*Jika tidak ada, silakan masukkan tanda minus (-).</p>
     """, unsafe_allow_html=True)
 
     # Step 3: User enters ingredients
