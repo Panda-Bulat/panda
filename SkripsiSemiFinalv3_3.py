@@ -104,9 +104,10 @@ def initialize_data_and_model():
         merged_data = pd.read_csv("merged_dataset.csv", encoding="utf-8")
         merged_data['clean_tokens'] = merged_data['clean_tokens'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
 
-        model_path = "fasttext_model.bin"
-        fasttext_model = FastText.load(model_path)
-        
+        # Load FastText model menggunakan pickle
+        with open("fasttext_model.pkl", "rb") as file:
+            fasttext_model = pickle.load(file)
+
         return merged_data, fasttext_model
     except Exception as e:
         st.error(f"Initialization failed: {e}")
