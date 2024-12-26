@@ -95,7 +95,8 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 #     """,
 #     unsafe_allow_html=True
 # )
-    
+
+nltk.download("punkt_tab")
 nltk.download("punkt", quiet=True)
 
 # Initialize and preprocess data and model
