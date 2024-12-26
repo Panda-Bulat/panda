@@ -9,76 +9,79 @@ from nltk.tokenize import word_tokenize
 from gensim.models import FastText
 from sklearn.metrics.pairwise import cosine_similarity
 import ast
+import pickle
 
 page_bg_img = """
 <style>
 /* Latar belakang utama */
-[data-testid="stAppViewContainer"] {
+[data-testid="stAppViewContainer"]{
     background-image: url(https://images.unsplash.com/photo-1485963631004-f2f00b1d6606?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
     background-size: cover;
-    color: white;
+    # color: #5A3E36; /* Warna cokelat gelap */
+    color : white;
 }
 
 [data-testid="stAppViewContainer"]::before {
-    content: "";
+    content: ""; /* Membuat pseudo-element */
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 0;
-    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.75); /* Layer hitam transparan */
+    z-index: 0; /* Pastikan layer ini muncul di atas gambar */
+    pointer-events: none; /* Supaya layer tidak mengganggu interaksirea pengguna */
 }
 
 /* Header transparan */
-[data-testid="stHeader"] {
+[data-testid="stHeader"]{
     background-color: rgba(0, 0, 0, 0);
 }
 
-/* Gaya untuk semua teks */
+/* Kotak melengkung di tengah */
+# .central-box {
+#         # background-color: rgba(255, 255, 255, 0.9); /* Warna putih transparan */
+#         background-color: rgba(0, 0, 0, 0.8);
+#         padding: 40px; /* Ruang dalam */
+#         border-radius: 20px; /* Sudut melengkung */
+#         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Efek bayangan */
+#         width: 120%; /* Lebar kotak */
+#         height: 200vw;
+#         margin: 0 auto; /* Pusatkan secara horizontal */
+#         margin-top: 45%; /* Jarak dari atas */
+#         text-align: center; /* Rata tengah */
+#         position: absolute; /* Posisi absolut untuk diatur di belakang */
+#         top: 50%; /* Atur posisi vertikal */
+#         left: 50%; /* Atur posisi horizontal */
+#         transform: translate(-50%, -50%); /* Pusatkan secara sempurna */
+#         z-index: 0; /* Letakkan di belakang elemen lain */
+# }
+
+/* Teks tetap bersih */
 h1, h2, h3, h4, h5, h6, label, .stMarkdown {
-    font-family: "Roboto", sans-serif;
-    color: #F5F5F5 !important;
+    # color: #5A3E36 !important;
+    color: white !important;
 }
 
-/* Gaya input dan tombol */
+/* Bayangan untuk input box dan tombol */
 .stTextInput>div, .stButton>button, .stTextArea>div, select {
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    border: 1px solid #DEB887;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Tambahkan bayangan */
+    border-radius: 8px; /* Membulatkan sudut */
+    border: 1px solid #DEB887; /* Warna cokelat muda untuk border */
 }
 
-/* Tombol dengan warna yang menarik */
+/* Tampilan tombol */
 .stButton>button {
-    background-color: #FFD700; /* Warna emas */
-    color: black !important;
+    background-color: #F5DEB3; /* Warna tombol */
+    # color: #5A3E36 !important;
+    color: white !important;
     padding: 10px 15px;
     border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .stButton>button:hover {
-    background-color: #FFA500; /* Warna oranye */
-    transform: scale(1.05);
-}
-
-/* Tampilan subjudul */
-.stSubtitle {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #FFD700;
-}
-
-/* Kotak hasil rekomendasi */
-.expander-header {
-    background-color: rgba(255, 215, 0, 0.1); /* Warna emas semi transparan */
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #FFD700;
-    margin-bottom: 10px;
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    background-color: #DEB887; /* Warna hover tombol */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* Bayangan lebih tebal saat hover */
 }
 </style>
 """
@@ -93,7 +96,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 #     """,
 #     unsafe_allow_html=True
 # )
-nltk.download('punkt_tab')
+    
 nltk.download("punkt", quiet=True)
 
 # Initialize and preprocess data and model
@@ -188,7 +191,7 @@ def main():
 
     # Step 2: User enters allergens
     st.subheader("Step 2: Pilih bahan alergen")
-    st.write("*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat (Jika tidak ada cukup ketik '-')")
+    st.write("*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat")
     user_allergens = st.text_input("Masukkan bahan alergen (dipisah tanda koma (,) misal: telur, udang)")
 
     # Step 3: User enters ingredients
