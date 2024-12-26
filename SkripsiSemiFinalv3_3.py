@@ -13,75 +13,42 @@ import pickle
 
 page_bg_img = """
 <style>
-/* Latar belakang utama */
-[data-testid="stAppViewContainer"]{
+[data-testid="stAppViewContainer"] {
     background-image: url(https://images.unsplash.com/photo-1485963631004-f2f00b1d6606?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
     background-size: cover;
-    # color: #5A3E36; /* Warna cokelat gelap */
-    color : white;
+    color: white;
 }
 
 [data-testid="stAppViewContainer"]::before {
-    content: ""; /* Membuat pseudo-element */
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.75); /* Layer hitam transparan */
-    z-index: 0; /* Pastikan layer ini muncul di atas gambar */
-    pointer-events: none; /* Supaya layer tidak mengganggu interaksirea pengguna */
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 0;
+    pointer-events: none;
 }
 
-/* Header transparan */
-[data-testid="stHeader"]{
+[data-testid="stHeader"] {
     background-color: rgba(0, 0, 0, 0);
 }
 
-/* Kotak melengkung di tengah */
-# .central-box {
-#         # background-color: rgba(255, 255, 255, 0.9); /* Warna putih transparan */
-#         background-color: rgba(0, 0, 0, 0.8);
-#         padding: 40px; /* Ruang dalam */
-#         border-radius: 20px; /* Sudut melengkung */
-#         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Efek bayangan */
-#         width: 120%; /* Lebar kotak */
-#         height: 200vw;
-#         margin: 0 auto; /* Pusatkan secara horizontal */
-#         margin-top: 45%; /* Jarak dari atas */
-#         text-align: center; /* Rata tengah */
-#         position: absolute; /* Posisi absolut untuk diatur di belakang */
-#         top: 50%; /* Atur posisi vertikal */
-#         left: 50%; /* Atur posisi horizontal */
-#         transform: translate(-50%, -50%); /* Pusatkan secara sempurna */
-#         z-index: 0; /* Letakkan di belakang elemen lain */
-# }
-
-/* Teks tetap bersih */
-h1, h2, h3, h4, h5, h6, label, .stMarkdown {
-    # color: #5A3E36 !important;
-    color: white !important;
-}
-
-/* Bayangan untuk input box dan tombol */
-.stTextInput>div, .stButton>button, .stTextArea>div, select {
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Tambahkan bayangan */
-    border-radius: 8px; /* Membulatkan sudut */
-    border: 1px solid #DEB887; /* Warna cokelat muda untuk border */
-}
-
-/* Tampilan tombol */
 .stButton>button {
-    background-color: #F5DEB3; /* Warna tombol */
-    # color: #5A3E36 !important;
+    background-color: #F5DEB3;
     color: white !important;
     padding: 10px 15px;
     border-radius: 8px;
 }
 
 .stButton>button:hover {
-    background-color: #DEB887; /* Warna hover tombol */
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* Bayangan lebih tebal saat hover */
+    background-color: #DEB887;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+h1, h2, h3, h4, h5, h6, label {
+    color: white !important;
 }
 </style>
 """
