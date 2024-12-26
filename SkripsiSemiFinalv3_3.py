@@ -211,16 +211,16 @@ def main():
 
     # Step 2: User enters allergens
     st.subheader("Step 2: Pilih bahan alergen")
-    st.markdown("""
-        <p style="margin-bottom: 5px;">*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat.</p>
-        <p style="margin-bottom: 5px;">*Jika tidak ada, silakan masukkan tanda minus (-).</p>""", unsafe_allow_html=True)
     user_allergens = st.text_input("Masukkan bahan alergen (dipisah tanda koma (,) misal: telur, udang)")
+    st.markdown("""
+        <p style="font-size: 10px; margin-bottom: 4px;">*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat.</p>
+        <p style="font-size: 10px; margin-bottom: 4px;">*Jika tidak ada, silakan masukkan tanda minus (-).</p>""", unsafe_allow_html=True)
 
     # Step 3: User enters ingredients
     st.subheader("Step 3: Pilih bahan makanan yang ingin dimasukkan")
-    st.markdown("""
-        <p style="margin-bottom: 5px;">*Jika terdapat typo pada input bahan makanan, hasil rekomendasi bisa saja berbeda.</p>""", unsafe_allow_html=True)
     user_ingredients = st.text_input("Masukkan bahan makanan (dipisah tanda koma (,) misal: telur, udang)")
+    st.markdown("""
+        <p style="font-size: 10px; margin-bottom: 5px;">*Jika terdapat typo pada input bahan makanan, hasil rekomendasi bisa saja berbeda.</p>""", unsafe_allow_html=True)
 
     # Submit button
     if st.button("Submit"):
