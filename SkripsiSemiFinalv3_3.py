@@ -220,7 +220,7 @@ def main():
     st.subheader("Step 3: Pilih bahan makanan yang ingin dimasukkan")
     user_ingredients = st.text_input("Masukkan bahan makanan (dipisah tanda koma (,) misal: telur, udang)")
     st.markdown("""
-        <p style="font-size: 12px; margin-top: 5px; margin-bottom: 7px;">*Jika terdapat typo pada input bahan makanan, hasil rekomendasi bisa saja berbeda.</p>""", unsafe_allow_html=True)
+        <p style="font-size: 12px; margin-top: 0px; margin-bottom: 7px;">*Jika terdapat typo pada input bahan makanan, hasil rekomendasi bisa saja berbeda.</p>""", unsafe_allow_html=True)
 
     # Submit button
     if st.button("Submit"):
