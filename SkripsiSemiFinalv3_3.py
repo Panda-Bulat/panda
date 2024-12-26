@@ -230,6 +230,14 @@ def main():
     st.markdown("""
         <p style="font-size: 12px; margin-top: 0px; margin-bottom: 10px;">*Jika terdapat typo pada input bahan makanan, hasil rekomendasi bisa saja berbeda.</p>""", unsafe_allow_html=True)
 
+    st.markdown("""
+    <style>
+        .stButton {
+            margin-top: 10px; /* Jarak atas tombol Submit */
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     # Submit button
     if st.button("Submit"):
         if selected_categories and user_allergens and user_ingredients:
