@@ -180,16 +180,72 @@ def recommend_recipes_fasttext(data, user_input, fasttext_model, top_n=5):
     recommendations = data.nlargest(top_n, 'score')[['Title', 'Loves', 'score', 'ingredients', 'Steps']]
     return recommendations
 
+import os
+from github import Github
+from dotenv import load_dotenv
+from datetime import datetime
+
+# Load .env file
+load_dotenv("token.env")
+
+# GitHub token and repository details
+github_token = os.getenv("GITHUB_TOKEN")  # Load GitHub token from .env
+repository_name = "panda"  # Replace with your repository name
+branch = "main"  # Use the appropriate branch
+file_name = "User_Data".xlsx"  # The Excel file to upload
+
+# Function to upload the file to GitHub
+def upload_to_github(repo_name, file_path, token):
+    g = Github(token)
+    repo = g.get_user().get_repo(repo_name)
+    
+    # Check if file exists, and decide if we want to overwrite or create a new file
+    try:
+        file_content = repo.get_contents(file_path, ref=branch)
+        repo.update_file(file_content.path, "Updating user data", open(file_path, 'rb').read(), file_content.sha, branch=branch)
+    except:
+        # If file doesn't exist, create a new file
+        with open(file_path, "rb") as file:
+            content = file.read()
+        repo.create_file(file_path, "Adding user data", content, branch=branch)
+    
+    st.success(f"File '{file_path}' successfully uploaded to GitHub!")
+
+# Function to save user data to an Excel file
+from datetime import datetime
+import os
+import pandas as pd
+
+# Function to save user data and recommendations to Excel, with a datetime column
+def save_user_data_to_excel(selected_categories, user_allergens, user_ingredients, recommendations, file_path):
+    # Get the current datetime to track when the interaction happens
+    current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Format: YYYY-MM-DD HH:MM:SS
+    
+    # Prepare data to save into Excel
+    data = {
+        "Timestamp": [current_timestamp],
+        "Categories": [', '.join(selected_categories)],
+        "Allergens": [user_allergens],
+        "Ingredients": [user_ingredients],
+        "Recommendations": [', '.join(recommendations)]
+    }
+    
+    # Convert to DataFrame
+    df_new = pd.DataFrame(data)
+    
+    # Check if the Excel file already exists
+    if os.path.exists(file_path):
+        # If file exists, load it and append new data
+        df_existing = pd.read_excel(file_path)
+        df_combined = pd.concat([df_existing, df_new], ignore_index=True)
+        df_combined.to_excel(file_path, index=False)  # Save combined data back to Excel
+    else:
+        # If file doesn't exist, create a new file
+        df_new.to_excel(file_path, index=False)
+
+
 # Main application
 def main():
-
-    st.markdown(
-        """
-        <div class="bg-opacity"></div>
-        """,
-        unsafe_allow_html=True
-    )
-    
     st.title("Recipe Recommendation System")
 
     if "merged_data" not in st.session_state or "fasttext_model" not in st.session_state:
@@ -216,11 +272,6 @@ def main():
         "Masukkan daftar bahan alergen, dipisahkan dengan tanda koma (,).", 
         help="Contoh: telur, udang"
     )
-    
-    st.markdown("""
-        <p style="font-size: 12px; margin-top: 0px; margin-bottom: 4px;">*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat.</p>
-        <p style="font-size: 12px; margin-top: 0px; margin-bottom: 4px;">*Jika tidak ada, silakan masukkan tanda minus (-).</p>
-    """, unsafe_allow_html=True)
 
     # Step 3: User enters ingredients
     st.subheader("Step 3: Pilih bahan makanan yang ingin dimasukkan")
@@ -228,35 +279,31 @@ def main():
         "Masukkan daftar bahan makanan, dipisahkan dengan tanda koma (,).", 
         help="Contoh: telur, udang"
     )
-    st.markdown("""
-        <p style="font-size: 12px; margin-top: 0px; margin-bottom: 10px;">*Jika terdapat typo pada input bahan makanan, hasil rekomendasi bisa saja berbeda.</p>""", unsafe_allow_html=True)
 
-    st.markdown("""
-    <style>
-        .stButton {
-            margin-top: 8px; /* Jarak atas tombol Submit */
-        }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    # Submit button
+    #Submit button
     if st.button("Submit"):
         if selected_categories and user_allergens and user_ingredients:
             # Step 1: Filter by category
             filtered_data = filter_by_category(merged_data, selected_categories)
-
+    
             # Step 2: Filter by allergens
             user_allergens = [allergen.strip() for allergen in user_allergens.split(',')]
             filtered_data = filter_by_allergens(filtered_data, user_allergens)
-
+    
             # Step 3: Use user ingredients to generate recommendations
             user_ingredients = [ingredient.strip() for ingredient in user_ingredients.split(',')]
             user_ingredients_str = ' '.join(user_ingredients)
-
+    
             # Step 4: Get recommendations
             recommendations = recommend_recipes_fasttext(filtered_data, user_ingredients_str, fasttext_model)
-
-            # Step 5: Display recommendations
+    
+            # Step 5: Collect recipe titles from recommendations if any
+            if not recommendations.empty:
+                recommended_titles = recommendations['Title'].tolist()  # Extract titles from the recommendations
+            else:
+                recommended_titles = ["No recommendations found."]  # Default message if no recommendations are found
+    
+            # Step 6: Display recommendations
             st.subheader("Top Recommended Recipes")
             if not recommendations.empty:
                 for idx, row in recommendations.iterrows():
@@ -267,7 +314,7 @@ def main():
                         for ing in ingredients_list:
                             if ing.strip():  # Only display non-empty ingredients
                                 st.markdown(f"- {ing.strip()}")
-
+    
                         # Display Steps
                         st.write("**Steps:**")
                         steps_list = row['Steps'].split("--")
@@ -276,8 +323,12 @@ def main():
                                 st.markdown(f"- {step.strip()}")
             else:
                 st.write("No recommendations found. Please adjust your inputs.")
+            
+            # Save user input data and recommendations to Excel with datetime and upload to GitHub
+            save_user_data_to_excel(selected_categories, user_allergens, user_ingredients, recommended_titles, file_name)
+            upload_to_github(repository_name, file_name, github_token)
         else:
             st.warning("Please fill out all inputs before submitting!")
-
+        
 if __name__ == "__main__":
     main()
