@@ -11,6 +11,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 import ast
 import pickle
 import gdown
+import os
+from github import Github
+from dotenv import load_dotenv
+from datetime import datetime
 
 page_bg_img = """
 <style>
@@ -180,11 +184,6 @@ def recommend_recipes_fasttext(data, user_input, fasttext_model, top_n=5):
     recommendations = data.nlargest(top_n, 'score')[['Title', 'Loves', 'score', 'ingredients', 'Steps']]
     return recommendations
 
-import os
-from github import Github
-from dotenv import load_dotenv
-from datetime import datetime
-
 # Load .env file
 load_dotenv("token.env")
 
@@ -210,11 +209,6 @@ def upload_to_github(repo_name, file_path, token):
         repo.create_file(file_path, "Adding user data", content, branch=branch)
     
     st.success(f"File '{file_path}' successfully uploaded to GitHub!")
-
-# Function to save user data to an Excel file
-from datetime import datetime
-import os
-import pandas as pd
 
 # Function to save user data and recommendations to Excel, with a datetime column
 def save_user_data_to_excel(selected_categories, user_allergens, user_ingredients, recommendations, file_path):
