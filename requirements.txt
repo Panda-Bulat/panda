@@ -79,3 +79,4 @@ zipp==3.21.0
 PyGithub==1.55
 python-dotenv==0.21.0
 openpyxl==3.1.2
+pytz==2023.3
