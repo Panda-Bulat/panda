@@ -15,6 +15,7 @@ import os
 from github import Github
 from dotenv import load_dotenv
 from datetime import datetime
+import pytz
 
 page_bg_img = """
 <style>
@@ -213,7 +214,10 @@ def upload_to_github(repo_name, file_path, token):
 # Function to save user data and recommendations to Excel, with a datetime column
 def save_user_data_to_excel(selected_categories, user_allergens, user_ingredients, recommendations, file_path):
     # Get the current datetime to track when the interaction happens
-    current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Format: YYYY-MM-DD HH:MM:SS
+    tz = pytz.timezone('Asia/Jakarta')
+    
+    # Get the current datetime in WIB
+    current_timestamp = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')  # Format: YYYY-MM-DD HH:MM:SS
     
     # Prepare data to save into Excel
     data = {
