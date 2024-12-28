@@ -209,7 +209,7 @@ def upload_to_github(repo_name, file_path, token):
             content = file.read()
         repo.create_file(file_path, "Adding user data", content, branch=branch)
     
-    st.success(f"File '{file_path}' successfully uploaded to GitHub!")
+    # st.success(f"File '{file_path}' successfully uploaded to GitHub!")
 
 # Function to save user data and recommendations to Excel, with a datetime column
 def save_user_data_to_excel(selected_categories, user_allergens, user_ingredients, recommendations, file_path):
@@ -252,7 +252,7 @@ def main():
             st.session_state.merged_data, st.session_state.fasttext_model = initialize_data_and_model()
     
         # Menampilkan teks kecil menggunakan markdown setelah inisialisasi selesai
-        st.markdown('<small>Data and model initialized successfully.</small>', unsafe_allow_html=True)
+        # st.markdown('<small>Data and model initialized successfully.</small>', unsafe_allow_html=True)
 
     merged_data = st.session_state.merged_data
     fasttext_model = st.session_state.fasttext_model
@@ -266,17 +266,13 @@ def main():
 
     # Step 2: User enters allergens
     st.subheader("Step 2: Pilih bahan alergen")
-    user_allergens = st.text_input(
-        "Masukkan daftar bahan alergen, dipisahkan dengan tanda koma (,).", 
-        help="Contoh: telur, udang"
-    )
+    st.write("*Jika terdapat typo pada input alergen, hasil rekomendasi bisa saja tidak akurat (Jika tidak ada cukup ketik '-')")
+    user_allergens = st.text_input("Masukkan bahan alergen (dipisah tanda koma (,) misal: telur, udang)")
 
     # Step 3: User enters ingredients
     st.subheader("Step 3: Pilih bahan makanan yang ingin dimasukkan")
-    user_ingredients = st.text_input(
-        "Masukkan daftar bahan makanan, dipisahkan dengan tanda koma (,).", 
-        help="Contoh: telur, udang"
-    )
+    st.write("*Jika terdapat typo pada input bahan makanan, hasil rekomendasi bisa saja berbeda")
+    user_ingredients = st.text_input("Masukkan bahan makanan (dipisah tanda koma (,) misal: telur, udang)")
 
     #Submit button
     if st.button("Submit"):
